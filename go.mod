@@ -9,8 +9,8 @@ go 1.18
 require (
 	github.com/apex/log v1.9.0
 	github.com/magefile/mage v1.14.0
-	github.com/onsi/ginkgo/v2 v2.6.0
-	github.com/onsi/gomega v1.24.1
+	github.com/onsi/ginkgo/v2 v2.8.0
+	github.com/onsi/gomega v1.26.0
 	github.com/openshift-online/ocm-cli v0.1.64
 	github.com/openshift-online/ocm-sdk-go v0.1.300
 	github.com/pterm/pterm v0.12.50
@@ -22,11 +22,11 @@ require (
 
 require gopkg.in/yaml.v3 v3.0.1
 
-require github.com/mt-sre/go-ci v0.6.1
+require github.com/mt-sre/go-ci v0.6.4
 
 require (
 	github.com/matttproud/golang_protobuf_extensions v1.0.2-0.20181231171920-c182affec369 // indirect
-	golang.org/x/text v0.5.0
+	golang.org/x/text v0.6.0
 )
 
 require (
@@ -89,8 +89,8 @@ require (
 	github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	golang.org/x/crypto v0.0.0-20220427172511-eb4f295cb31f // indirect
-	golang.org/x/net v0.2.0 // indirect
-	golang.org/x/sys v0.2.0 // indirect
-	golang.org/x/term v0.2.0 // indirect
+	golang.org/x/net v0.5.0 // indirect
+	golang.org/x/sys v0.4.0 // indirect
+	golang.org/x/term v0.4.0 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 )
