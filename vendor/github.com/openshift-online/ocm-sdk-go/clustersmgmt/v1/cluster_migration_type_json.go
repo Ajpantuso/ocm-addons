@@ -27,10 +27,10 @@ import (
 	"github.com/openshift-online/ocm-sdk-go/helpers"
 )
 
-// MarshalVersionGate writes a value of the 'version_gate' type to the given writer.
-func MarshalVersionGate(object *VersionGate, writer io.Writer) error {
+// MarshalClusterMigration writes a value of the 'cluster_migration' type to the given writer.
+func MarshalClusterMigration(object *ClusterMigration, writer io.Writer) error {
 	stream := helpers.NewStream(writer)
-	WriteVersionGate(object, stream)
+	WriteClusterMigration(object, stream)
 	err := stream.Flush()
 	if err != nil {
 		return err
@@ -38,15 +38,15 @@ func MarshalVersionGate(object *VersionGate, writer io.Writer) error {
 	return stream.Error
 }
 
-// WriteVersionGate writes a value of the 'version_gate' type to the given stream.
-func WriteVersionGate(object *VersionGate, stream *jsoniter.Stream) {
+// WriteClusterMigration writes a value of the 'cluster_migration' type to the given stream.
+func WriteClusterMigration(object *ClusterMigration, stream *jsoniter.Stream) {
 	count := 0
 	stream.WriteObjectStart()
 	stream.WriteObjectField("kind")
 	if object.bitmap_&1 != 0 {
-		stream.WriteString(VersionGateLinkKind)
+		stream.WriteString(ClusterMigrationLinkKind)
 	} else {
-		stream.WriteString(VersionGateKind)
+		stream.WriteString(ClusterMigrationKind)
 	}
 	count++
 	if object.bitmap_&2 != 0 {
@@ -71,20 +71,11 @@ func WriteVersionGate(object *VersionGate, stream *jsoniter.Stream) {
 		if count > 0 {
 			stream.WriteMore()
 		}
-		stream.WriteObjectField("sts_only")
-		stream.WriteBool(object.stsOnly)
+		stream.WriteObjectField("cluster_id")
+		stream.WriteString(object.clusterID)
 		count++
 	}
 	present_ = object.bitmap_&16 != 0
-	if present_ {
-		if count > 0 {
-			stream.WriteMore()
-		}
-		stream.WriteObjectField("cluster_condition")
-		stream.WriteString(object.clusterCondition)
-		count++
-	}
-	present_ = object.bitmap_&32 != 0
 	if present_ {
 		if count > 0 {
 			stream.WriteMore()
@@ -93,13 +84,22 @@ func WriteVersionGate(object *VersionGate, stream *jsoniter.Stream) {
 		stream.WriteString((object.creationTimestamp).Format(time.RFC3339))
 		count++
 	}
-	present_ = object.bitmap_&64 != 0
+	present_ = object.bitmap_&32 != 0 && object.sdnToOvn != nil
 	if present_ {
 		if count > 0 {
 			stream.WriteMore()
 		}
-		stream.WriteObjectField("description")
-		stream.WriteString(object.description)
+		stream.WriteObjectField("sdn_to_ovn")
+		WriteSdnToOvnClusterMigration(object.sdnToOvn, stream)
+		count++
+	}
+	present_ = object.bitmap_&64 != 0 && object.state != nil
+	if present_ {
+		if count > 0 {
+			stream.WriteMore()
+		}
+		stream.WriteObjectField("state")
+		WriteClusterMigrationState(object.state, stream)
 		count++
 	}
 	present_ = object.bitmap_&128 != 0
@@ -107,8 +107,8 @@ func WriteVersionGate(object *VersionGate, stream *jsoniter.Stream) {
 		if count > 0 {
 			stream.WriteMore()
 		}
-		stream.WriteObjectField("documentation_url")
-		stream.WriteString(object.documentationURL)
+		stream.WriteObjectField("type")
+		stream.WriteString(string(object.type_))
 		count++
 	}
 	present_ = object.bitmap_&256 != 0
@@ -116,54 +116,27 @@ func WriteVersionGate(object *VersionGate, stream *jsoniter.Stream) {
 		if count > 0 {
 			stream.WriteMore()
 		}
-		stream.WriteObjectField("label")
-		stream.WriteString(object.label)
-		count++
-	}
-	present_ = object.bitmap_&512 != 0
-	if present_ {
-		if count > 0 {
-			stream.WriteMore()
-		}
-		stream.WriteObjectField("value")
-		stream.WriteString(object.value)
-		count++
-	}
-	present_ = object.bitmap_&1024 != 0
-	if present_ {
-		if count > 0 {
-			stream.WriteMore()
-		}
-		stream.WriteObjectField("version_raw_id_prefix")
-		stream.WriteString(object.versionRawIDPrefix)
-		count++
-	}
-	present_ = object.bitmap_&2048 != 0
-	if present_ {
-		if count > 0 {
-			stream.WriteMore()
-		}
-		stream.WriteObjectField("warning_message")
-		stream.WriteString(object.warningMessage)
+		stream.WriteObjectField("updated_timestamp")
+		stream.WriteString((object.updatedTimestamp).Format(time.RFC3339))
 	}
 	stream.WriteObjectEnd()
 }
 
-// UnmarshalVersionGate reads a value of the 'version_gate' type from the given
+// UnmarshalClusterMigration reads a value of the 'cluster_migration' type from the given
 // source, which can be an slice of bytes, a string or a reader.
-func UnmarshalVersionGate(source interface{}) (object *VersionGate, err error) {
+func UnmarshalClusterMigration(source interface{}) (object *ClusterMigration, err error) {
 	iterator, err := helpers.NewIterator(source)
 	if err != nil {
 		return
 	}
-	object = ReadVersionGate(iterator)
+	object = ReadClusterMigration(iterator)
 	err = iterator.Error
 	return
 }
 
-// ReadVersionGate reads a value of the 'version_gate' type from the given iterator.
-func ReadVersionGate(iterator *jsoniter.Iterator) *VersionGate {
-	object := &VersionGate{}
+// ReadClusterMigration reads a value of the 'cluster_migration' type from the given iterator.
+func ReadClusterMigration(iterator *jsoniter.Iterator) *ClusterMigration {
+	object := &ClusterMigration{}
 	for {
 		field := iterator.ReadObject()
 		if field == "" {
@@ -172,7 +145,7 @@ func ReadVersionGate(iterator *jsoniter.Iterator) *VersionGate {
 		switch field {
 		case "kind":
 			value := iterator.ReadString()
-			if value == VersionGateLinkKind {
+			if value == ClusterMigrationLinkKind {
 				object.bitmap_ |= 1
 			}
 		case "id":
@@ -181,14 +154,10 @@ func ReadVersionGate(iterator *jsoniter.Iterator) *VersionGate {
 		case "href":
 			object.href = iterator.ReadString()
 			object.bitmap_ |= 4
-		case "sts_only":
-			value := iterator.ReadBool()
-			object.stsOnly = value
-			object.bitmap_ |= 8
-		case "cluster_condition":
+		case "cluster_id":
 			value := iterator.ReadString()
-			object.clusterCondition = value
-			object.bitmap_ |= 16
+			object.clusterID = value
+			object.bitmap_ |= 8
 		case "creation_timestamp":
 			text := iterator.ReadString()
 			value, err := time.Parse(time.RFC3339, text)
@@ -196,31 +165,28 @@ func ReadVersionGate(iterator *jsoniter.Iterator) *VersionGate {
 				iterator.ReportError("", err.Error())
 			}
 			object.creationTimestamp = value
+			object.bitmap_ |= 16
+		case "sdn_to_ovn":
+			value := ReadSdnToOvnClusterMigration(iterator)
+			object.sdnToOvn = value
 			object.bitmap_ |= 32
-		case "description":
-			value := iterator.ReadString()
-			object.description = value
+		case "state":
+			value := ReadClusterMigrationState(iterator)
+			object.state = value
 			object.bitmap_ |= 64
-		case "documentation_url":
-			value := iterator.ReadString()
-			object.documentationURL = value
+		case "type":
+			text := iterator.ReadString()
+			value := ClusterMigrationType(text)
+			object.type_ = value
 			object.bitmap_ |= 128
-		case "label":
-			value := iterator.ReadString()
-			object.label = value
+		case "updated_timestamp":
+			text := iterator.ReadString()
+			value, err := time.Parse(time.RFC3339, text)
+			if err != nil {
+				iterator.ReportError("", err.Error())
+			}
+			object.updatedTimestamp = value
 			object.bitmap_ |= 256
-		case "value":
-			value := iterator.ReadString()
-			object.value = value
-			object.bitmap_ |= 512
-		case "version_raw_id_prefix":
-			value := iterator.ReadString()
-			object.versionRawIDPrefix = value
-			object.bitmap_ |= 1024
-		case "warning_message":
-			value := iterator.ReadString()
-			object.warningMessage = value
-			object.bitmap_ |= 2048
 		default:
 			iterator.ReadAny()
 		}
