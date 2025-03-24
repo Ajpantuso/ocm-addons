@@ -111,7 +111,7 @@ type Cluster struct {
 	htpasswd                          *HTPasswdIdentityProvider
 	hypershift                        *Hypershift
 	identityProviders                 *v1.IdentityProviderList
-	inflightChecks                    *v1.InflightCheckList
+	inflightChecks                    *InflightCheckList
 	infraID                           string
 	ingresses                         *v1.IngressList
 	kubeletConfig                     *KubeletConfig
@@ -121,7 +121,7 @@ type Cluster struct {
 	name                              string
 	network                           *Network
 	nodeDrainGracePeriod              *Value
-	nodePools                         *v1.NodePoolList
+	nodePools                         *NodePoolList
 	nodes                             *ClusterNodes
 	openshiftVersion                  string
 	product                           *v1.Product
@@ -956,7 +956,7 @@ func (o *Cluster) GetIdentityProviders() (value *v1.IdentityProviderList, ok boo
 // the zero value of the type if the attribute doesn't have a value.
 //
 // List of inflight checks on this cluster.
-func (o *Cluster) InflightChecks() *v1.InflightCheckList {
+func (o *Cluster) InflightChecks() *InflightCheckList {
 	if o != nil && o.bitmap_&34359738368 != 0 {
 		return o.inflightChecks
 	}
@@ -967,7 +967,7 @@ func (o *Cluster) InflightChecks() *v1.InflightCheckList {
 // a flag indicating if the attribute has a value.
 //
 // List of inflight checks on this cluster.
-func (o *Cluster) GetInflightChecks() (value *v1.InflightCheckList, ok bool) {
+func (o *Cluster) GetInflightChecks() (value *InflightCheckList, ok bool) {
 	ok = o != nil && o.bitmap_&34359738368 != 0
 	if ok {
 		value = o.inflightChecks
@@ -1264,7 +1264,7 @@ func (o *Cluster) GetNodeDrainGracePeriod() (value *Value, ok bool) {
 //
 // List of node pools on this cluster.
 // NodePool is a scalable set of worker nodes attached to a hosted cluster.
-func (o *Cluster) NodePools() *v1.NodePoolList {
+func (o *Cluster) NodePools() *NodePoolList {
 	if o != nil && o.bitmap_&281474976710656 != 0 {
 		return o.nodePools
 	}
@@ -1276,7 +1276,7 @@ func (o *Cluster) NodePools() *v1.NodePoolList {
 //
 // List of node pools on this cluster.
 // NodePool is a scalable set of worker nodes attached to a hosted cluster.
-func (o *Cluster) GetNodePools() (value *v1.NodePoolList, ok bool) {
+func (o *Cluster) GetNodePools() (value *NodePoolList, ok bool) {
 	ok = o != nil && o.bitmap_&281474976710656 != 0
 	if ok {
 		value = o.nodePools
