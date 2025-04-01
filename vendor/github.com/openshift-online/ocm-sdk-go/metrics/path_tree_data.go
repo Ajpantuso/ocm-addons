@@ -154,7 +154,17 @@ var pathTreeData = `{
     "aro_hcp": {
       "v1alpha1": {
         "clusters": {
-          "-": null
+          "-": {
+            "inflight_checks": {
+              "-": null
+            },
+            "node_pools": {
+              "-": {
+                "status": null
+              }
+            },
+            "status": null
+          }
         }
       }
     },
@@ -300,6 +310,9 @@ var pathTreeData = `{
               "cpu_total_by_node_roles_os": null,
               "nodes": null,
               "socket_total_by_node_roles_os": null
+            },
+            "migrations": {
+              "-": null
             },
             "node_pools": {
               "-": {
