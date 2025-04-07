@@ -5,6 +5,7 @@
 module github.com/mt-sre/ocm-addons
 
 go 1.23
+toolchain go1.24.1
 
 require (
 	github.com/apex/log v1.9.0
@@ -22,7 +23,7 @@ require (
 	github.com/stretchr/testify v1.10.0
 	go.uber.org/multierr v1.11.0
 	golang.org/x/sys v0.29.0
-	golang.org/x/text v0.21.0
+	golang.org/x/text v0.24.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
