@@ -19,12 +19,14 @@ func Cmd() *cobra.Command {
 	var opts options
 
 	opts.DefaultColumns("addon_id, addon_name, installed_version_id, cluster_id, cluster_name, cluster_state, state")
+	opts.SearchUsage("only list addons on clusters that match the given search query")
 
 	return generateCommand(&opts, run(&opts))
 }
 
 type options struct {
 	cli.CommonOptions
+	cli.SearchOptions
 }
 
 const longDescription = `List all installations of a given add-on by cluster in the current OCM environment.
@@ -43,6 +45,7 @@ func generateCommand(options *options, run func(*cobra.Command, []string) error)
 	options.AddColumnsFlag(flags)
 	options.AddNoColorFlag(flags)
 	options.AddNoHeadersFlag(flags)
+	options.AddSearchFlag(flags)
 
 	return cmd
 }
@@ -90,6 +93,10 @@ func run(opts *options) func(cmd *cobra.Command, args []string) error { //nolint
 		clusters, err := ocm.RetrieveClusters(sess.Conn(), trace)
 		if err != nil {
 			return err
+		}
+
+		if opts.Search != "" {
+			clusters = clusters.Search(opts.Search)
 		}
 
 		if err := clusters.ForEach(ctx, func(cluster *ocm.Cluster) error {
