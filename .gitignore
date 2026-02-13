@@ -10,3 +10,6 @@
 dist/
 
 result
+
+.envrc
+.direnv
