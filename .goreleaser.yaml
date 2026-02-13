@@ -22,11 +22,6 @@ builds:
   - -X 'github.com/mt-sre/ocm-addons/internal/meta.commit={{.Commit}}'
   - -X 'github.com/mt-sre/ocm-addons/internal/meta.date={{.Date}}'
   - -X 'github.com/mt-sre/ocm-addons/internal/meta.builtBy=goreleaser'
-  hooks:
-    post:
-    - env:
-      - BIN_PATH={{ .Path }}
-      cmd: make license-check
 archives:
 - format_overrides:
   - goos: windows

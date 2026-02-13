@@ -8,11 +8,11 @@
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
     let
-        version = "0.7.18";
+        version = "0.7.21";
         pkgs = import nixpkgs { inherit system; };
         ocm-cli = pkgs.buildGoModule rec {
           pname = "ocm-cli";
-          version = "1.0.3";
+          version = "1.0.11";
 
           src = pkgs.fetchFromGitHub {
             owner = "openshift-online";
@@ -39,7 +39,7 @@
         };
         devDeps = with pkgs; [
           git
-          go_1_23
+          go_1_24
           goreleaser
           pre-commit
           golangci-lint
