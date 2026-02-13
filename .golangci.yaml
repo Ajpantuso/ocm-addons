@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
+version: "2"
 run:
   build-tags:
     - codeanalysis
@@ -11,29 +12,18 @@ linters:
   disable:
   # not neccessary right now
   - depguard
-  # Deprecated
-  - golint
-  - interfacer
-  - maligned
-  - scopelint
   # Only meant to be applied selectively.
   - exhaustruct
-  - exhaustivestruct
   # Promotes use of trivially shortened statements rather than
   # lower complexity functions.
   - funlen
-  # Standard import ordering is fine for now.
-  - gci
   # Globals still in use for singleton-esque objects.
   - gochecknoglobals
   # False reports.
-  - ifshort
   - nilerr
   # Interface returns are currently used to wrap chained methods
   # methods from the 'ocm-sdk'.
   - ireturn
-  # Incorrectly reports '_' prefixed package globals
-  - nosnakecase
   # Does not support map[string]testcase style subtests.
   - paralleltest
   # Ineffective for foreign schemas
